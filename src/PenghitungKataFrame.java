@@ -1,6 +1,10 @@
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JFileChooser;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -103,6 +107,7 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         textFieldCariKata = new javax.swing.JTextField();
         labelHasilPencarian = new javax.swing.JLabel();
         buttonCari = new javax.swing.JButton();
+        buttonSimpan = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -165,6 +170,14 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
             }
         });
 
+        buttonSimpan.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        buttonSimpan.setText("Simpan");
+        buttonSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonSimpanActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -184,6 +197,8 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(buttonSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(buttonHitung, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addComponent(buttonKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -238,7 +253,8 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(buttonKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonHitung, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(buttonHitung, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -271,6 +287,35 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
     private void buttonCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCariActionPerformed
        cariKata(); // Panggil fungsi cari kata saat tombol "Cari" ditekan
     }//GEN-LAST:event_buttonCariActionPerformed
+
+    private void buttonSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSimpanActionPerformed
+          // Menampilkan dialog untuk memilih lokasi penyimpanan
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setDialogTitle("Simpan File");
+    int userSelection = fileChooser.showSaveDialog(this);
+    
+    if (userSelection == JFileChooser.APPROVE_OPTION) {
+        File fileToSave = fileChooser.getSelectedFile();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileToSave))) {
+            // Menulis teks yang dimasukkan ke file
+            writer.write("Teks Input:\n");
+            writer.write(textAreaInput.getText());
+            writer.write("\n\n");
+
+            // Menulis hasil perhitungan ke file
+            writer.write("Hasil Perhitungan:\n");
+            writer.write(labelJumlahKata.getText() + "\n");
+            writer.write(labelJumlahKarakter.getText() + "\n");
+            writer.write(labelJumlahKalimat.getText() + "\n");
+            writer.write(labelJumlahParagraf.getText() + "\n");
+
+            labelHasilPencarian.setText("Teks dan hasil telah disimpan di " + fileToSave.getAbsolutePath());
+        } catch (IOException e) {
+            labelHasilPencarian.setText("Terjadi kesalahan saat menyimpan file.");
+            e.printStackTrace();
+        }
+    }
+    }//GEN-LAST:event_buttonSimpanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -311,6 +356,7 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
     private javax.swing.JButton buttonCari;
     private javax.swing.JButton buttonHitung;
     private javax.swing.JButton buttonKeluar;
+    private javax.swing.JButton buttonSimpan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPaneTextArea;
