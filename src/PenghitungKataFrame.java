@@ -52,9 +52,33 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
     labelJumlahKalimat.setText("Jumlah Kalimat: " + jumlahKalimat);
     labelJumlahParagraf.setText("Jumlah Paragraf: " + jumlahParagraf);
     }
+// Fungsi untuk mencari kata dalam teks
+    private void cariKata() {
+    String teks = textAreaInput.getText().toLowerCase(); // Ambil teks dan ubah menjadi huruf kecil
+    String kataDicari = textFieldCariKata.getText().toLowerCase(); // Ambil kata yang ingin dicari dan ubah menjadi huruf kecil
 
+    // Mengecek apakah kata yang dicari kosong
+    if (kataDicari.isEmpty()) {
+        labelHasilPencarian.setText("Masukkan kata untuk mencari.");
+        return;
+    }
+
+    // Menghitung jumlah kemunculan kata dalam teks
+    int count = 0;
+    int index = 0;
+    while ((index = teks.indexOf(kataDicari, index)) != -1) {
+        count++;
+        index += kataDicari.length(); // Melanjutkan pencarian setelah kata yang ditemukan
+    }
+
+    // Menampilkan hasil pencarian
+    if (count > 0) {
+        labelHasilPencarian.setText("Kata '" + kataDicari + "' ditemukan sebanyak " + count + " kali.");
+    } else {
+        labelHasilPencarian.setText("Kata '" + kataDicari + "' tidak ditemukan.");
+    }
   
-    
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -76,6 +100,9 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         labelJumlahKarakter = new javax.swing.JLabel();
         labelJumlahKalimat = new javax.swing.JLabel();
         labelJumlahParagraf = new javax.swing.JLabel();
+        textFieldCariKata = new javax.swing.JTextField();
+        labelHasilPencarian = new javax.swing.JLabel();
+        buttonCari = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,6 +148,23 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         labelJumlahParagraf.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
         labelJumlahParagraf.setText("Menampilkan Jumlah Paragraf");
 
+        textFieldCariKata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldCariKataActionPerformed(evt);
+            }
+        });
+
+        labelHasilPencarian.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        labelHasilPencarian.setText("Tampilkan Hasil Pencarian");
+
+        buttonCari.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        buttonCari.setText("Cari");
+        buttonCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonCariActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -129,28 +173,33 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(labelInputTeks)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPaneTextArea)
+                        .addGap(36, 36, 36))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(labelJumlahParagraf)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(buttonHitung, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addComponent(buttonKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelHasilPencarian)
                             .addComponent(labelJumlahKalimat)
                             .addComponent(labelJumlahKarakter)
-                            .addComponent(labelJumlahKata))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(labelInputTeks)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPaneTextArea))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(0, 0, Short.MAX_VALUE)
-                                        .addComponent(buttonHitung, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(labelJumlahParagraf)
-                                        .addGap(0, 202, Short.MAX_VALUE)))
+                                .addComponent(labelJumlahKata)
+                                .addGap(174, 174, 174)
+                                .addComponent(textFieldCariKata, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(buttonKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(36, 36, 36))))
+                                .addComponent(buttonCari, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(20, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -168,23 +217,29 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addComponent(jScrollPaneTextArea, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
-                .addComponent(labelJumlahKata)
-                .addGap(27, 27, 27)
-                .addComponent(labelJumlahKarakter)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
+                        .addGap(31, 31, 31)
+                        .addComponent(labelJumlahKata)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                        .addComponent(labelJumlahKarakter)
+                        .addGap(34, 34, 34)
                         .addComponent(labelJumlahKalimat)
                         .addGap(26, 26, 26)
                         .addComponent(labelJumlahParagraf)
-                        .addContainerGap(78, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(labelHasilPencarian)
+                        .addGap(0, 93, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textFieldCariKata, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonCari, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(buttonKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(buttonHitung, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())))
+                            .addComponent(buttonKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(buttonHitung, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -195,9 +250,7 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -210,6 +263,14 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
     private void buttonKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonKeluarActionPerformed
        System.exit(0); // Menutup aplikasi
     }//GEN-LAST:event_buttonKeluarActionPerformed
+
+    private void textFieldCariKataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldCariKataActionPerformed
+       
+    }//GEN-LAST:event_textFieldCariKataActionPerformed
+
+    private void buttonCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonCariActionPerformed
+       cariKata(); // Panggil fungsi cari kata saat tombol "Cari" ditekan
+    }//GEN-LAST:event_buttonCariActionPerformed
 
     /**
      * @param args the command line arguments
@@ -247,16 +308,19 @@ public class PenghitungKataFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonCari;
     private javax.swing.JButton buttonHitung;
     private javax.swing.JButton buttonKeluar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPaneTextArea;
+    private javax.swing.JLabel labelHasilPencarian;
     private javax.swing.JLabel labelInputTeks;
     private javax.swing.JLabel labelJumlahKalimat;
     private javax.swing.JLabel labelJumlahKarakter;
     private javax.swing.JLabel labelJumlahKata;
     private javax.swing.JLabel labelJumlahParagraf;
     private javax.swing.JTextArea textAreaInput;
+    private javax.swing.JTextField textFieldCariKata;
     // End of variables declaration//GEN-END:variables
 }
